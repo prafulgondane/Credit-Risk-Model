@@ -1,0 +1,6 @@
+Flask==1.1.1
+numpy==1.19.5
+scikit-learn==1.0.1
+lightgbm==3.3.1
+pandas==0.25.1
+joblib==1.1.0

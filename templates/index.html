@@ -1,0 +1,102 @@
+<html>
+<head>
+
+ 
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
+ <script>
+        $(function(){
+        	$('button').click(function(){
+        		var user = $('#loan_id').val();
+        		$.ajax({
+        			url: '/predict',
+        			data: $('form').serialize(),
+        			type: 'POST',
+        			success: function(response){
+        				console.log(response);
+        				$('#response').text( response.prediction );
+        			},
+        			error: function(error){
+        				console.log(error);
+        			}
+        		});
+        	});
+        	
+            $('#loan_id').change(function() {
+        		var user = $('#loan_id').val();
+        		$.ajax({
+        			url: '/get_loan_details',
+        			data: $('form').serialize(),
+        			type: 'POST',
+        			success: function(response){
+            			//alert(response)
+        				console.log(response);
+        				$('#loan_no').text( response.loan_id );
+        				$('#gender').text( response.gender );
+        				$('#income').text( response.income );
+        				$('#loan_amt').text( response.loan_amt );
+        			},
+        			error: function(error){
+        				console.log(error);
+        			}
+        		});
+            });
+        });
+  </script>
+</head>
+<body>
+   <div class="container">
+    <br>
+    <h3 class="text-center">CREDIT DEFAULT RISK CALCULATOR</h3>
+    <br>
+    <form>
+    <!--<label for="age">Loan ID</label>-->
+    <!--<input type="text" id="sepal_length" name="sepal_length"> -->
+     
+    <select class="form-control" name="loan_id" id="loan_id">
+        <option selected>SELECT LOAN ID</option>
+        <option value="100001">100001</option>
+        <option value="100005">100005</option>
+        <option value="100013">100013</option>
+        <option value="100028">100028</option>
+        <option value="100038">100038</option>
+    </select>
+    <br>
+    
+      <h2>Loan Details</h2>
+      <p></p>            
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>LOAN ID</th>
+            <th>GENDER</th>
+            <th>INCOME</th>
+            <th>LOAN AMOUNT</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td id='loan_no'>-</td>
+            <td id='gender'>-</td>
+            <td id='income'>-</td>
+            <td id='loan_amt'>-</td>
+          </tr>
+        </tbody>
+      </table>
+    
+
+    <br> 
+    <button type="button" class="btn btn-outline-primary">PREDICT RE-PAYMENT DIFFCUTY</button>
+    <br> <br> 
+    <h4 for="age">Customer will be having re-payment difficulties with probability : </h4> 
+    <h4> <div id='response'></div> </h4>
+    
+  </form>
+</div>
+</body>
+</html>
